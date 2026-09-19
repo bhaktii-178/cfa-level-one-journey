@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "CFA Level I — My 2027 Journey"
+description = "A lightweight personal CFA Level I February 2027 study command center with curriculum tracking, confidence ratings, session logging, progress insights, and local browser persistence."
+version = "1.0.0"
+id = "artifacts/cfa-level-one-journey"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22450
+
+[services.development]
+run = "pnpm --filter @workspace/cfa-level-one-journey run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/cfa-level-one-journey", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/cfa-level-one-journey/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22450"
+BASE_PATH = "/"

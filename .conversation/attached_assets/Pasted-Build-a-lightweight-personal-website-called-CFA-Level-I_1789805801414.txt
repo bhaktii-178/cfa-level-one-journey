@@ -1,0 +1,192 @@
+Build a **lightweight personal website** called **“CFA Level I — My 2027 Journey”**.
+
+I am preparing for the **CFA Level I February 2027 exam** and want this website to be my personal study tracker.
+
+### Important
+
+This should be a **website/web dashboard**, NOT a heavy desktop/mobile app. Keep it lightweight, fast, responsive and simple. I should be able to access it through my browser without installing anything.
+
+I want the **CFA Level I Schweser 2027 curriculum structure built into the website**. Keep the curriculum data separate from the website code so it can easily be edited/imported if needed. I will provide the Schweser curriculum data if required.
+
+---
+
+## Main Dashboard
+
+The homepage should immediately show:
+
+### CFA Level I — February 2027
+
+* Countdown to exam
+* Overall curriculum completion %
+* Topics completed / remaining
+* Average confidence score
+* Total study hours
+
+### Subject Progress
+
+Show every CFA Level I subject with:
+
+* Progress %
+* Topics completed
+* Average confidence
+
+Use clean progress bars.
+
+### Next Up
+
+Automatically show topics that need attention based on:
+
+* Not started
+* Low confidence
+* Needs revision
+* Not studied recently
+
+### Recent Study Sessions
+
+Show my latest:
+
+* Date
+* Subject
+* Topic
+* Study duration
+* Optional note
+
+### Motivation
+
+Display a short motivational line that changes occasionally, such as:
+
+“Progress beats perfection.”
+
+“One topic at a time.”
+
+“Keep showing up.”
+
+“Your future self will thank you.”
+
+Keep these subtle and elegant, not cheesy.
+
+---
+
+## Curriculum Tracker
+
+Create a **Curriculum** page with:
+
+**Subject → Topic → Subtopic/Learning Outcome**
+
+For every topic I should be able to set:
+
+* Not Started
+* In Progress
+* Completed
+* Needs Revision
+
+And give myself a **confidence rating from 1–5**.
+
+Also allow:
+
+* Notes
+* Last studied date
+* Revision count
+
+When I update a topic, the dashboard should automatically update.
+
+---
+
+## Study Sessions
+
+Allow me to record:
+
+* Date
+* Subject
+* Topic
+* Duration
+* Notes
+
+Show total study hours for:
+
+* This week
+* This month
+* Overall
+
+Also show a simple study streak.
+
+---
+
+## Subject Details
+
+Clicking a subject should show:
+
+* Completion %
+* Confidence
+* Completed topics
+* Remaining topics
+* Weak topics
+* Topics needing revision
+
+---
+
+## Design
+
+Make it feel like a **minimal, elegant and motivating CFA study dashboard**.
+
+Style:
+
+* Clean
+* Modern
+* Calm
+* Professional
+* Slightly enthusiastic
+
+Use an off-white/light background, dark text, muted navy/blue accents and subtle green/amber indicators.
+
+Avoid:
+
+* Neon colors
+* Excessive animations
+* Clutter
+* Overly gamified design
+
+Use subtle animations and micro-interactions.
+
+Make it excellent on both desktop and mobile.
+
+---
+
+## Data
+
+My progress must persist when I close or refresh the browser.
+
+Store:
+
+* Topic status
+* Confidence
+* Notes
+* Study sessions
+* Revision history
+* Statistics
+
+Add a simple **Export/Backup Progress** option.
+
+No complicated login system is needed initially.
+
+---
+
+## Build Priority
+
+First make these work perfectly:
+
+**Schweser 2027 Curriculum → Topic Tracking → Confidence → Dashboard → Study Sessions → Persistent Data**
+
+Then add small enhancements such as calendar, streaks and charts.
+
+The final result should feel like:
+
+> **“My personal CFA command center.”**
+
+When I open it, I should instantly know:
+
+**Where am I?
+What have I completed?
+What is left?
+What am I weak at?
+What should I study next?**

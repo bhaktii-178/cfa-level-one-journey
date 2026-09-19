@@ -1,6 +1,6 @@
-# [Project name]
+# CFA Level I — My 2027 Journey
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A lightweight personal CFA Level I February 2027 study command center with full Schweser reading tracking, confidence notes, study sessions, and browser-local backup.
 
 ## Run & Operate
 
@@ -22,23 +22,32 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/cfa-level-one-journey/src/App.tsx` — routed dashboard, curriculum tracker, session log, subject detail, and local persistence.
+- `artifacts/cfa-level-one-journey/src/data/curriculum.ts` — editable source of truth for the 102-reading CFA Level I 2027 curriculum.
+- `artifacts/cfa-level-one-journey/src/index.css` — shared visual theme, typography, texture, and responsive styling.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The first build is frontend-only and local-first; no authentication or backend is required for the personal tracker.
+- Progress and study sessions are stored in `localStorage` and can be exported/imported as JSON backups.
+- Curriculum source data is kept separate from presentation code so readings/modules can be edited without changing UI logic.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+The app provides:
+- A dashboard with exam countdown, completion, confidence, study time, streak, next-up readings, subject progress, and recent sessions.
+- A searchable, filterable curriculum tracker with status, 1–5 confidence, notes, last studied date, and revision count.
+- Session logging with week/month/all-time views and subject detail pages with weak/revision summaries.
+- Local JSON backup/import controls.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+The user wants a lightweight browser website rather than an installed app, with a calm professional study experience and no complicated login initially.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- The web artifact workflow supplies `PORT` and `BASE_PATH`; direct Vite builds from the shell need those variables set.
+- The exam countdown currently uses February 20, 2027 as the working exam date because the brief specifies the month but not a day.
 
 ## Pointers
 
