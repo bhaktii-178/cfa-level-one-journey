@@ -49,6 +49,10 @@ function formatDate(value: string | null) {
 function subjectFor(id: string) { return subjects.find((subject) => subject.id === id) || subjects[0]; }
 function topicFor(id: string) { return readings.find((topic) => topic.id === id); }
 function daysBetween(a: Date, b: Date) { return Math.max(0, Math.ceil((b.getTime() - a.getTime()) / 86400000)); }
+function dayOfYear(date: Date) {
+  const start = new Date(date.getFullYear(), 0, 0);
+  return Math.floor((date.getTime() - start.getTime()) / 86400000);
+}
 
 function App() {
   const [snapshot, setSnapshot] = useState<Snapshot>(readSnapshot);
@@ -163,7 +167,15 @@ function PageHeading({ eyebrow, title, children }: { eyebrow: string; title: str
 }
 
 function Dashboard({ store }: { store: Store }) {
-  const [lineIndex] = useState(() => new Date().getDate() % motivationalLines.length);
+  const [todayKey, setTodayKey] = useState(() => new Date().toDateString());
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const nextKey = new Date().toDateString();
+      setTodayKey((currentKey) => currentKey === nextKey ? currentKey : nextKey);
+    }, 60000);
+    return () => window.clearInterval(timer);
+  }, []);
+  const lineIndex = dayOfYear(new Date(todayKey)) % motivationalLines.length;
   const now = new Date();
   const completed = readings.filter((topic) => store.progress[topic.id]?.status === 'completed').length;
   const average = readings.reduce((sum, topic) => sum + (store.progress[topic.id]?.confidence || 1), 0) / readings.length;
