@@ -47,7 +47,7 @@ The user wants a lightweight browser website rather than an installed app, with 
 ## Gotchas
 
 - The web artifact workflow supplies `PORT` and `BASE_PATH`; direct Vite builds from the shell need those variables set.
-- The exam countdown currently uses February 20, 2027 as the working exam date because the brief specifies the month but not a day.
+- The exam countdown is set to February 27, 2027.
 
 ## Pointers
 
