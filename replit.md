@@ -24,6 +24,7 @@ A lightweight personal CFA Level I February 2027 study command center with full 
 
 - `artifacts/cfa-level-one-journey/src/App.tsx` — routed dashboard, curriculum tracker, session log, subject detail, and local persistence.
 - `artifacts/cfa-level-one-journey/src/data/curriculum.ts` — editable source of truth for the 102-reading CFA Level I 2027 curriculum.
+- `artifacts/cfa-level-one-journey/public/schweser/` — imported Schweser books plus exact reading page/text mappings used by each reading view.
 - `artifacts/cfa-level-one-journey/src/index.css` — shared visual theme, typography, texture, and responsive styling.
 
 ## Architecture decisions
@@ -31,12 +32,14 @@ A lightweight personal CFA Level I February 2027 study command center with full 
 - The first build is frontend-only and local-first; no authentication or backend is required for the personal tracker.
 - Progress and study sessions are stored in `localStorage` and can be exported/imported as JSON backups.
 - Curriculum source data is kept separate from presentation code so readings/modules can be edited without changing UI logic.
+- Each reading links to its original Schweser book pages and a direct extracted-text study view; the PDFs remain available for diagrams and original layout.
 
 ## Product
 
 The app provides:
 - A dashboard with exam countdown, completion, confidence, study time, streak, next-up readings, subject progress, and recent sessions.
 - A searchable, filterable curriculum tracker with status, 1–5 confidence, notes, last studied date, and revision count.
+- A reading detail view for all 102 readings with mapped Schweser source pages, examples, module questions, and answer-key text.
 - Session logging with week/month/all-time views and subject detail pages with weak/revision summaries.
 - Local JSON backup/import controls.
 
@@ -48,6 +51,7 @@ The user wants a lightweight browser website rather than an installed app, with 
 
 - The web artifact workflow supplies `PORT` and `BASE_PATH`; direct Vite builds from the shell need those variables set.
 - The exam countdown is set to February 27, 2027.
+- The dashboard motivational line is selected from a 366-line daily set and rotates automatically at the calendar-day boundary.
 
 ## Pointers
 

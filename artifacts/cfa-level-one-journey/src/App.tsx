@@ -2,10 +2,11 @@ import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent,
 import { Link, Route, Switch, useLocation, useParams, Router as WouterRouter } from 'wouter';
 import {
   ArrowDownToLine, ArrowLeft, ArrowUpFromLine, BarChart3, BookOpen, CalendarDays,
-  ChevronRight, Clock3, FileText, Flame, FolderOpen, LayoutDashboard, Menu,
+  ChevronRight, Clock3, ExternalLink, FileText, Flame, FolderOpen, LayoutDashboard, Menu,
   NotebookPen, PanelLeftClose, Plus, Search, Settings2, Target, TrendingUp, X, type LucideIcon,
 } from 'lucide-react';
 import { subjects, readings, type Reading, type Subject } from '@/data/curriculum';
+import readingManifest from '@/data/readingManifest.json';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -17,10 +18,33 @@ type ProgressMap = Record<string, Progress>;
 type Session = { id: string; date: string; subjectId: string; topicId: string; durationMinutes: number; notes: string };
 type Snapshot = { progress: ProgressMap; sessions: Session[] };
 type Store = { progress: ProgressMap; sessions: Session[]; updateProgress: (id: string, patch: Partial<Progress>) => void; addSession: (session: Session) => void };
+type ReadingContent = { readingNumber: string; pages: { pageNumber: number; text: string }[] };
 
 const STORAGE_KEY = 'cfa-2027-journey-v1';
 const examDate = new Date('2027-02-27T08:00:00');
-const motivationalLines = ['A steady hour compounds.', 'Return to the next useful page.', 'Clarity comes from showing up.', 'Small sessions build a large edge.', 'Study the question behind the formula.'];
+const motivationalOpeners = [
+  'A steady hour', 'One focused block', 'Today’s practice', 'A clean first pass',
+  'One solved problem', 'A careful reread', 'A written explanation', 'A quiet review',
+  'One honest check', 'A patient comparison', 'A useful question', 'A second look',
+  'A measured start', 'One formula recalled', 'A short session', 'A clear summary',
+  'One marked page', 'A deliberate pause', 'A connected idea', 'A calm return',
+  'One more example', 'A focused morning', 'A thoughtful evening', 'A small commitment',
+];
+const motivationalClosers = [
+  'turns uncertainty into confidence.', 'makes the next concept easier.', 'builds recall that lasts.',
+  'gives tomorrow a stronger starting point.', 'keeps the larger plan moving.', 'reveals what needs another pass.',
+  'makes the formula easier to trust.', 'turns a topic into something usable.', 'creates evidence of progress.',
+  'is enough to keep the habit alive.', 'makes difficult material less abstract.', 'sharpens the judgment behind the answer.',
+  'helps the pattern become familiar.', 'is more valuable than a rushed chapter.', 'keeps the exam in perspective.',
+  'puts another useful tool in reach.', 'makes confidence specific and earned.', 'moves one idea from recognition to recall.',
+  'leaves a clearer trail for revision.', 'is how complex work becomes manageable.',
+  'makes the next question worth attempting.', 'builds the patience finance rewards.', 'turns attention into an advantage.',
+  'gives your future self something to build on.', 'is a practical form of momentum.',
+  'helps the important details stay visible.', 'brings the question behind the formula into view.',
+  'makes the work feel less scattered.', 'is progress even before the answer feels easy.',
+  'keeps your reasoning close to the evidence.', 'makes one more page count.',
+];
+const motivationalLines = motivationalOpeners.flatMap((opener) => motivationalClosers.map((closer) => `${opener} ${closer}`)).slice(0, 366);
 
 const initialProgress = (): ProgressMap => Object.fromEntries(readings.map((topic) => [topic.id, {
   status: 'not_started', confidence: 1, notes: '', lastStudied: null, revisionCount: 0,
@@ -48,6 +72,8 @@ function formatDate(value: string | null) {
 }
 function subjectFor(id: string) { return subjects.find((subject) => subject.id === id) || subjects[0]; }
 function topicFor(id: string) { return readings.find((topic) => topic.id === id); }
+function materialFor(readingNumber: string) { return readingManifest.find((material) => material.readingNumber === readingNumber); }
+function materialUrl(path: string) { return `${import.meta.env.BASE_URL.replace(/\/$/, '')}${path}`; }
 function daysBetween(a: Date, b: Date) { return Math.max(0, Math.ceil((b.getTime() - a.getTime()) / 86400000)); }
 function dayOfYear(date: Date) {
   const start = new Date(date.getFullYear(), 0, 0);
@@ -96,6 +122,7 @@ function App() {
                 <Route path="/">{() => <Dashboard store={store} />}</Route>
                 <Route path="/curriculum">{() => <Curriculum store={store} />}</Route>
                 <Route path="/sessions">{() => <Sessions store={store} />}</Route>
+                <Route path="/readings/:readingId">{() => <ReadingDetail store={store} />}</Route>
                 <Route path="/subjects/:subjectId">{() => <SubjectDetail store={store} />}</Route>
                 <Route component={NotFound} />
               </Switch>
@@ -196,7 +223,6 @@ function Dashboard({ store }: { store: Store }) {
   }).slice(0, 4);
   const recent = store.sessions.slice(0, 3);
   return <div className="page-enter">
-    <PageHeading eyebrow="Wednesday · your study desk" title="Keep the thread." />
     <div className="mb-8 grid gap-4 lg:grid-cols-[1.5fr_1fr]">
       <section className="relative overflow-hidden rounded-2xl bg-primary p-7 text-primary-foreground paper-shadow md:p-9">
         <div className="absolute -right-10 -top-14 size-60 rounded-full border border-primary-foreground/10" /><div className="absolute -right-2 -top-6 size-40 rounded-full border border-primary-foreground/10" />
@@ -264,9 +290,97 @@ function Curriculum({ store }: { store: Store }) {
 }
 
 function CurriculumRow({ topic, progress, updateProgress }: { topic: Reading; progress: Progress; updateProgress: Store['updateProgress'] }) {
-  const [expanded, setExpanded] = useState(false); const subject = subjectFor(topic.subjectId);
-  const setStatus = (status: Status) => updateProgress(topic.id, { status, lastStudied: status === 'in_progress' || status === 'completed' ? new Date().toISOString().slice(0, 10) : progress.lastStudied, revisionCount: status === 'needs_revision' ? progress.revisionCount + 1 : progress.revisionCount });
-  return <article className={`overflow-hidden rounded-xl border bg-card transition-colors ${expanded ? 'border-primary/30' : 'border-border'}`}><div className="flex flex-col gap-3 p-4 md:flex-row md:items-center"><button type="button" data-testid={`button-expand-topic-${topic.id}`} onClick={() => setExpanded(!expanded)} className="flex min-w-0 flex-1 items-center gap-3 text-left"><span className="grid size-9 shrink-0 place-items-center rounded-lg text-xs font-semibold" style={{ backgroundColor: `${subject.accent}1c`, color: subject.accent }}>{topic.readingNumber.padStart(2, '0')}</span><span className="min-w-0"><span className="block truncate text-sm font-semibold text-primary">{topic.title}</span><span className="mt-1 block text-xs text-muted-foreground">{subject.shortLabel} <span className="mx-1 text-border">·</span> {topic.modules.length} modules</span></span></button><div className="flex items-center gap-2 pl-12 md:pl-0"><select value={progress.status} onChange={(e) => setStatus(e.target.value as Status)} data-testid={`select-status-${topic.id}`} aria-label={`Status for ${topic.title}`} className={`focus-ring h-8 rounded-md border border-border bg-background px-2 text-[11px] font-semibold outline-none ${progress.status === 'completed' ? 'text-accent' : progress.status === 'needs_revision' ? 'text-[#a56b3e]' : 'text-muted-foreground'}`}><option value="not_started">Not started</option><option value="in_progress">In progress</option><option value="completed">Completed</option><option value="needs_revision">Needs revision</option></select><div className="flex items-center gap-0.5 rounded-md bg-secondary px-2 py-1.5" aria-label={`Confidence ${progress.confidence} of 5`}>{[1, 2, 3, 4, 5].map((n) => <button key={n} type="button" data-testid={`button-confidence-${topic.id}-${n}`} onClick={() => updateProgress(topic.id, { confidence: n })} className={`size-4 text-[11px] transition-colors ${n <= progress.confidence ? 'text-[#bb8337]' : 'text-border'}`}>●</button>)}</div><button type="button" data-testid={`button-toggle-detail-${topic.id}`} onClick={() => setExpanded(!expanded)} className="rounded-md p-2 text-muted-foreground hover:bg-secondary"><ChevronRight size={15} className={`transition-transform ${expanded ? 'rotate-90' : ''}`} /></button></div></div>{expanded && <div className="border-t border-border bg-secondary/30 px-4 pb-5 pt-4 md:pl-[4.5rem]"><div className="mb-4 flex flex-wrap gap-2">{topic.modules.map((module) => <span key={module} className="rounded-full border border-border bg-card px-2.5 py-1 text-[11px] text-muted-foreground">{module}</span>)}</div><label className="block text-xs font-semibold text-primary">Private notes<textarea value={progress.notes} onChange={(e) => updateProgress(topic.id, { notes: e.target.value })} data-testid={`textarea-notes-${topic.id}`} placeholder="What should you remember next time?" rows={2} className="focus-ring mt-2 w-full resize-y rounded-lg border border-border bg-card p-3 text-sm outline-none placeholder:text-muted-foreground" /></label><div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-foreground"><span>Last studied: {formatDate(progress.lastStudied)}{progress.revisionCount ? ` · ${progress.revisionCount} revision${progress.revisionCount > 1 ? 's' : ''}` : ''}</span><Link href={`/subjects/${subject.id}`} data-testid={`link-open-subject-${topic.id}`} className="font-semibold text-accent">Open {subject.shortLabel} <ChevronRight size={12} className="inline" /></Link></div></div>}</article>;
+  const [expanded, setExpanded] = useState(false);
+  const subject = subjectFor(topic.subjectId);
+  const setStatus = (status: Status) => updateProgress(topic.id, {
+    status,
+    lastStudied: status === 'in_progress' || status === 'completed' ? new Date().toISOString().slice(0, 10) : progress.lastStudied,
+    revisionCount: status === 'needs_revision' ? progress.revisionCount + 1 : progress.revisionCount,
+  });
+  return <article className={`overflow-hidden rounded-xl border bg-card transition-colors ${expanded ? 'border-primary/30' : 'border-border'}`}>
+    <div className="flex flex-col gap-3 p-4 md:flex-row md:items-center">
+      <Link href={`/readings/${topic.id}`} data-testid={`link-open-reading-${topic.id}`} className="flex min-w-0 flex-1 items-center gap-3 text-left">
+        <span className="grid size-9 shrink-0 place-items-center rounded-lg text-xs font-semibold" style={{ backgroundColor: `${subject.accent}1c`, color: subject.accent }}>{topic.readingNumber.padStart(2, '0')}</span>
+        <span className="min-w-0">
+          <span className="block truncate text-sm font-semibold text-primary hover:text-accent">{topic.title}</span>
+          <span className="mt-1 block text-xs text-muted-foreground">{subject.shortLabel} <span className="mx-1 text-border">·</span> {topic.modules.length} modules <span className="mx-1 text-border">·</span> Open Schweser reading</span>
+        </span>
+      </Link>
+      <div className="flex items-center gap-2 pl-12 md:pl-0">
+        <select value={progress.status} onChange={(e) => setStatus(e.target.value as Status)} data-testid={`select-status-${topic.id}`} aria-label={`Status for ${topic.title}`} className={`focus-ring h-8 rounded-md border border-border bg-background px-2 text-[11px] font-semibold outline-none ${progress.status === 'completed' ? 'text-accent' : progress.status === 'needs_revision' ? 'text-[#a56b3e]' : 'text-muted-foreground'}`}>
+          <option value="not_started">Not started</option><option value="in_progress">In progress</option><option value="completed">Completed</option><option value="needs_revision">Needs revision</option>
+        </select>
+        <div className="flex items-center gap-0.5 rounded-md bg-secondary px-2 py-1.5" aria-label={`Confidence ${progress.confidence} of 5`}>{[1, 2, 3, 4, 5].map((n) => <button key={n} type="button" data-testid={`button-confidence-${topic.id}-${n}`} onClick={() => updateProgress(topic.id, { confidence: n })} className={`size-4 text-[11px] transition-colors ${n <= progress.confidence ? 'text-[#bb8337]' : 'text-border'}`}>●</button>)}</div>
+        <button type="button" data-testid={`button-toggle-detail-${topic.id}`} aria-label={`Show notes for ${topic.title}`} onClick={() => setExpanded(!expanded)} className="rounded-md p-2 text-muted-foreground hover:bg-secondary"><ChevronRight size={15} className={`transition-transform ${expanded ? 'rotate-90' : ''}`} /></button>
+      </div>
+    </div>
+    {expanded && <div className="border-t border-border bg-secondary/30 px-4 pb-5 pt-4 md:pl-[4.5rem]">
+      <div className="mb-4 flex flex-wrap gap-2">{topic.modules.map((module) => <span key={module} className="rounded-full border border-border bg-card px-2.5 py-1 text-[11px] text-muted-foreground">{module}</span>)}</div>
+      <label className="block text-xs font-semibold text-primary">Private notes<textarea value={progress.notes} onChange={(e) => updateProgress(topic.id, { notes: e.target.value })} data-testid={`textarea-notes-${topic.id}`} placeholder="What should you remember next time?" rows={2} className="focus-ring mt-2 w-full resize-y rounded-lg border border-border bg-card p-3 text-sm outline-none placeholder:text-muted-foreground" /></label>
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-foreground"><span>Last studied: {formatDate(progress.lastStudied)}{progress.revisionCount ? ` · ${progress.revisionCount} revision${progress.revisionCount > 1 ? 's' : ''}` : ''}</span><Link href={`/readings/${topic.id}`} data-testid={`link-open-reading-expanded-${topic.id}`} className="font-semibold text-accent">Open full reading <ChevronRight size={12} className="inline" /></Link></div>
+    </div>}
+  </article>;
+}
+
+function ReadingDetail({ store }: { store: Store }) {
+  const { readingId = '' } = useParams<{ readingId: string }>();
+  const topic = topicFor(readingId);
+  const material = topic ? materialFor(topic.readingNumber) : undefined;
+  const [content, setContent] = useState<ReadingContent | null>(null);
+  const [contentError, setContentError] = useState(false);
+  useEffect(() => {
+    if (!material) {
+      setContent(null);
+      return;
+    }
+    let cancelled = false;
+    setContent(null);
+    setContentError(false);
+    fetch(materialUrl(`/schweser/readings/${material.readingNumber}.json`))
+      .then((response) => {
+        if (!response.ok) throw new Error('Reading content unavailable');
+        return response.json() as Promise<ReadingContent>;
+      })
+      .then((reading) => { if (!cancelled) setContent(reading); })
+      .catch(() => { if (!cancelled) setContentError(true); });
+    return () => { cancelled = true; };
+  }, [material?.readingNumber]);
+  if (!topic || !material) return <NotFound />;
+  const subject = subjectFor(topic.subjectId);
+  const progress = store.progress[topic.id];
+  const source = materialUrl(material.file);
+  const setStatus = (status: Status) => store.updateProgress(topic.id, {
+    status,
+    lastStudied: status === 'in_progress' || status === 'completed' ? new Date().toISOString().slice(0, 10) : progress.lastStudied,
+    revisionCount: status === 'needs_revision' ? progress.revisionCount + 1 : progress.revisionCount,
+  });
+  return <div className="page-enter">
+    <Link href={`/subjects/${subject.id}`} data-testid="link-back-reading-subject" className="mb-7 inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-primary"><ArrowLeft size={14} /> {subject.shortLabel} readings</Link>
+    <div className="mb-7 flex flex-col justify-between gap-6 border-b border-border pb-7 lg:flex-row lg:items-end">
+      <div>
+        <div className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[.2em] text-muted-foreground"><span className="size-2 rounded-full" style={{ backgroundColor: subject.accent }} /> Reading {topic.readingNumber} <span className="text-border">·</span> {subject.name}</div>
+        <h1 className="max-w-3xl font-serif text-[38px] leading-[.98] tracking-[-.045em] text-primary md:text-[52px]">{topic.title}</h1>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">Study the original Schweser reading below, including its learning outcomes, worked examples, module quizzes, and answer key.</p>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <select value={progress.status} onChange={(e) => setStatus(e.target.value as Status)} data-testid={`select-reading-status-${topic.id}`} className="focus-ring h-9 rounded-lg border border-border bg-card px-3 text-xs font-semibold outline-none"><option value="not_started">Not started</option><option value="in_progress">In progress</option><option value="completed">Completed</option><option value="needs_revision">Needs revision</option></select>
+        <div className="flex items-center gap-0.5 rounded-lg bg-secondary px-2 py-2" aria-label={`Confidence ${progress.confidence} of 5`}>{[1, 2, 3, 4, 5].map((n) => <button key={n} type="button" data-testid={`button-reading-confidence-${topic.id}-${n}`} onClick={() => store.updateProgress(topic.id, { confidence: n })} className={`size-4 text-[11px] ${n <= progress.confidence ? 'text-[#bb8337]' : 'text-border'}`}>●</button>)}</div>
+      </div>
+    </div>
+    <div className="mb-6 grid gap-3 sm:grid-cols-3">
+      <div className="rounded-xl border border-border bg-card p-4"><div className="font-mono text-[10px] uppercase tracking-[.15em] text-muted-foreground">Source</div><div className="mt-2 text-sm font-semibold text-primary">Schweser Notes · Book {material.book}</div></div>
+      <div className="rounded-xl border border-border bg-card p-4"><div className="font-mono text-[10px] uppercase tracking-[.15em] text-muted-foreground">Pages</div><div className="mt-2 text-sm font-semibold text-primary">{material.startPage}–{material.endPage} <span className="font-normal text-muted-foreground">({material.pageCount} pages)</span></div></div>
+      <div className="rounded-xl border border-border bg-card p-4"><div className="font-mono text-[10px] uppercase tracking-[.15em] text-muted-foreground">Modules</div><div className="mt-2 text-sm font-semibold text-primary">{topic.modules.length} in this reading</div></div>
+    </div>
+    <section className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+      <div className="flex flex-col justify-between gap-3 border-b border-border px-5 py-4 sm:flex-row sm:items-center">
+        <div><div className="font-mono text-[10px] uppercase tracking-[.18em] text-accent">Original study material</div><p className="mt-1 text-xs text-muted-foreground">This is the exact text extracted from the mapped Schweser pages, including examples, module questions, and the answer key. Use the original PDF for diagrams and page layout.</p></div>
+        <a href={`${source}#page=${material.startPage}`} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-border px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-secondary hover:text-primary">Open original PDF <ExternalLink size={13} /></a>
+      </div>
+      {content ? <div className="divide-y divide-border">{content.pages.map((page) => <article key={page.pageNumber} className="px-5 py-7 md:px-10"><div className="mb-4 font-mono text-[10px] uppercase tracking-[.18em] text-muted-foreground">Schweser page {page.pageNumber}</div><div className="whitespace-pre-wrap text-[13px] leading-7 text-primary">{page.text}</div></article>)}</div> : contentError ? <div className="p-8 text-center text-sm text-muted-foreground">The reading text could not be loaded. Use “Open original PDF” above to continue studying.</div> : <div className="p-8 text-center text-sm text-muted-foreground">Loading the mapped Schweser reading…</div>}
+    </section>
+    <div className="mt-5 rounded-xl border border-border bg-secondary/40 p-4 text-xs leading-relaxed text-muted-foreground"><span className="font-semibold text-primary">Study path:</span> read pages {material.startPage}–{material.endPage}, complete the module questions in the source, then update your status, confidence, and private notes here. Your tracker data remains stored locally in this browser.</div>
+  </div>;
 }
 
 function Sessions({ store }: { store: Store }) {

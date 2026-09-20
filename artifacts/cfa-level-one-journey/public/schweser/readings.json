@@ -1,0 +1,920 @@
+[
+  {
+    "readingNumber": "1",
+    "title": "Returns Of Financial Assets And Instruments",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 18,
+    "endPage": 33,
+    "pageCount": 16
+  },
+  {
+    "readingNumber": "2",
+    "title": "Types Of Financial Returns",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 34,
+    "endPage": 46,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "3",
+    "title": "Benchmarking Returns",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 47,
+    "endPage": 69,
+    "pageCount": 23
+  },
+  {
+    "readingNumber": "4",
+    "title": "The Time Value Of Money In Finance",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 70,
+    "endPage": 89,
+    "pageCount": 20
+  },
+  {
+    "readingNumber": "5",
+    "title": "Statistical Characteristics Of Asset Returns",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 90,
+    "endPage": 112,
+    "pageCount": 23
+  },
+  {
+    "readingNumber": "6",
+    "title": "Statistical Distributions For Financial Asset Prices And Returns",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 113,
+    "endPage": 140,
+    "pageCount": 28
+  },
+  {
+    "readingNumber": "7",
+    "title": "Estimation And Hypothesis Testing",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 141,
+    "endPage": 185,
+    "pageCount": 45
+  },
+  {
+    "readingNumber": "8",
+    "title": "The Return And Risk Of A Financial Portfolio",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 186,
+    "endPage": 225,
+    "pageCount": 40
+  },
+  {
+    "readingNumber": "9",
+    "title": "Simulation Of Financial Asset Prices And Returns",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 226,
+    "endPage": 240,
+    "pageCount": 15
+  },
+  {
+    "readingNumber": "10",
+    "title": "Applications Of Simple Linear Regression In Finance",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 241,
+    "endPage": 269,
+    "pageCount": 29
+  },
+  {
+    "readingNumber": "11",
+    "title": "Introduction To Financial Data Science",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 270,
+    "endPage": 282,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "12",
+    "title": "The Firm And Market Structures",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 283,
+    "endPage": 307,
+    "pageCount": 25
+  },
+  {
+    "readingNumber": "13",
+    "title": "Understanding Business Cycles",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 308,
+    "endPage": 318,
+    "pageCount": 11
+  },
+  {
+    "readingNumber": "14",
+    "title": "Fiscal Policy",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 319,
+    "endPage": 331,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "15",
+    "title": "Monetary Policy",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 332,
+    "endPage": 346,
+    "pageCount": 15
+  },
+  {
+    "readingNumber": "16",
+    "title": "Introduction To Geopolitics",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 347,
+    "endPage": 356,
+    "pageCount": 10
+  },
+  {
+    "readingNumber": "17",
+    "title": "International Trade",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 357,
+    "endPage": 367,
+    "pageCount": 11
+  },
+  {
+    "readingNumber": "18",
+    "title": "Capital Flows And The Fx Market",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 368,
+    "endPage": 381,
+    "pageCount": 14
+  },
+  {
+    "readingNumber": "19",
+    "title": "Exchange Rate Calculations",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 382,
+    "endPage": 391,
+    "pageCount": 10
+  },
+  {
+    "readingNumber": "20",
+    "title": "Organizational Forms, Corporate Issuer Features, And Ownership",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 392,
+    "endPage": 398,
+    "pageCount": 7
+  },
+  {
+    "readingNumber": "21",
+    "title": "Investors And Other Stakeholders",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 399,
+    "endPage": 407,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "22",
+    "title": "Corporate Governance: Conflicts, Mechanisms, Risks, And Benefits",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 408,
+    "endPage": 417,
+    "pageCount": 10
+  },
+  {
+    "readingNumber": "23",
+    "title": "Working Capital And Liquidity",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 418,
+    "endPage": 428,
+    "pageCount": 11
+  },
+  {
+    "readingNumber": "24",
+    "title": "Capital Investments And Capital Allocation",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 429,
+    "endPage": 442,
+    "pageCount": 14
+  },
+  {
+    "readingNumber": "25",
+    "title": "Capital Structure",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 443,
+    "endPage": 458,
+    "pageCount": 16
+  },
+  {
+    "readingNumber": "26",
+    "title": "Business Models",
+    "book": 1,
+    "file": "/schweser/book-1.pdf",
+    "startPage": 459,
+    "endPage": 504,
+    "pageCount": 46
+  },
+  {
+    "readingNumber": "27",
+    "title": "Introduction To Financial Statement Analysis",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 15,
+    "endPage": 29,
+    "pageCount": 15
+  },
+  {
+    "readingNumber": "28",
+    "title": "Analyzing Income Statements",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 30,
+    "endPage": 67,
+    "pageCount": 38
+  },
+  {
+    "readingNumber": "29",
+    "title": "Analyzing Balance Sheets",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 68,
+    "endPage": 82,
+    "pageCount": 15
+  },
+  {
+    "readingNumber": "30",
+    "title": "Analyzing Statements Of Cash Flows I",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 83,
+    "endPage": 113,
+    "pageCount": 31
+  },
+  {
+    "readingNumber": "31",
+    "title": "Analyzing Statements Of Cash Flows Ii",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 114,
+    "endPage": 123,
+    "pageCount": 10
+  },
+  {
+    "readingNumber": "32",
+    "title": "Analysis Of Inventories Introduction This Reading Assumes That You Are Familiar With The Cost Flow Methodologies",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 124,
+    "endPage": 145,
+    "pageCount": 22
+  },
+  {
+    "readingNumber": "33",
+    "title": "Analysis Of Long-Term Assets Introduction Before Studying This Reading, Ensure You Have Reviewed Capitalization Versus",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 146,
+    "endPage": 165,
+    "pageCount": 20
+  },
+  {
+    "readingNumber": "34",
+    "title": "Topics In Long-Term Liabilities And Equity",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 166,
+    "endPage": 192,
+    "pageCount": 27
+  },
+  {
+    "readingNumber": "35",
+    "title": "Analysis Of Income Taxes",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 193,
+    "endPage": 215,
+    "pageCount": 23
+  },
+  {
+    "readingNumber": "36",
+    "title": "Financial Reporting Quality",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 216,
+    "endPage": 235,
+    "pageCount": 20
+  },
+  {
+    "readingNumber": "37",
+    "title": "Financial Analysis Techniques Introduction This Reading Presents A \u201cTool Box\u201d For An Analyst. It Would Be Nice If You Can",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 236,
+    "endPage": 270,
+    "pageCount": 35
+  },
+  {
+    "readingNumber": "38",
+    "title": "Introduction To Financial Statement Modeling",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 271,
+    "endPage": 283,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "39",
+    "title": "Equity Instrument Features",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 284,
+    "endPage": 289,
+    "pageCount": 6
+  },
+  {
+    "readingNumber": "40",
+    "title": "Equity Jurisdictions, Classes, And The Voting Process",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 290,
+    "endPage": 295,
+    "pageCount": 6
+  },
+  {
+    "readingNumber": "41",
+    "title": "Equity Issuance And Trading",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 296,
+    "endPage": 307,
+    "pageCount": 12
+  },
+  {
+    "readingNumber": "42",
+    "title": "Sources Of Equity Returns",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 308,
+    "endPage": 316,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "43",
+    "title": "Introduction To Equity Valuation",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 317,
+    "endPage": 329,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "44",
+    "title": "Discounted Cash Flow (Dcf) And Growth Models",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 330,
+    "endPage": 347,
+    "pageCount": 18
+  },
+  {
+    "readingNumber": "45",
+    "title": "Relative Value Equity Valuation Approaches",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 348,
+    "endPage": 366,
+    "pageCount": 19
+  },
+  {
+    "readingNumber": "46",
+    "title": "Financial Statement Forecasting In Equity Valuation",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 367,
+    "endPage": 379,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "47",
+    "title": "Industry And Competitive Analysis",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 380,
+    "endPage": 397,
+    "pageCount": 18
+  },
+  {
+    "readingNumber": "48",
+    "title": "Company Analysis: Past, Present, And Future",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 398,
+    "endPage": 415,
+    "pageCount": 18
+  },
+  {
+    "readingNumber": "49",
+    "title": "Equity Analyst Research Reports",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 416,
+    "endPage": 428,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "50",
+    "title": "The Capital Asset Pricing Model, Market Model, And Other Factor-Based Equity",
+    "book": 2,
+    "file": "/schweser/book-2.pdf",
+    "startPage": 429,
+    "endPage": 467,
+    "pageCount": 39
+  },
+  {
+    "readingNumber": "51",
+    "title": "Fixed-Income Instrument Features",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 14,
+    "endPage": 21,
+    "pageCount": 8
+  },
+  {
+    "readingNumber": "52",
+    "title": "Fixed-Income Cash Flows And Types",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 22,
+    "endPage": 34,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "53",
+    "title": "Fixed-Income Issuance And Trading",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 35,
+    "endPage": 43,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "54",
+    "title": "Fixed-Income Markets For Corporate Issuers",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 44,
+    "endPage": 55,
+    "pageCount": 12
+  },
+  {
+    "readingNumber": "55",
+    "title": "Fixed-Income Markets For Government Issuers",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 56,
+    "endPage": 62,
+    "pageCount": 7
+  },
+  {
+    "readingNumber": "56",
+    "title": "Fixed-Income Bond Valuation: Prices And Yields",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 63,
+    "endPage": 75,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "57",
+    "title": "Yield And Yield Spread Measures For Fixed-Rate Bonds",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 76,
+    "endPage": 87,
+    "pageCount": 12
+  },
+  {
+    "readingNumber": "58",
+    "title": "Yield And Yield Spread Measures For Floating-Rate Instruments",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 88,
+    "endPage": 93,
+    "pageCount": 6
+  },
+  {
+    "readingNumber": "59",
+    "title": "The Term Structure Of Interest Rates: Spot, Par, And Forward Curves",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 94,
+    "endPage": 106,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "60",
+    "title": "Interest Rate Risk And Return",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 107,
+    "endPage": 118,
+    "pageCount": 12
+  },
+  {
+    "readingNumber": "61",
+    "title": "Yield-Based Bond Duration Measures And Properties",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 119,
+    "endPage": 126,
+    "pageCount": 8
+  },
+  {
+    "readingNumber": "62",
+    "title": "Yield-Based Bond Convexity And Portfolio Properties",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 127,
+    "endPage": 136,
+    "pageCount": 10
+  },
+  {
+    "readingNumber": "63",
+    "title": "Curve-Based And Empirical Fixed-Income Risk Measures",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 137,
+    "endPage": 145,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "64",
+    "title": "Credit Risk",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 146,
+    "endPage": 158,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "65",
+    "title": "Credit Analysis For Government Issuers",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 159,
+    "endPage": 162,
+    "pageCount": 4
+  },
+  {
+    "readingNumber": "66",
+    "title": "Credit Analysis For Corporate Issuers",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 163,
+    "endPage": 171,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "67",
+    "title": "Fixed-Income Securitization",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 172,
+    "endPage": 177,
+    "pageCount": 6
+  },
+  {
+    "readingNumber": "68",
+    "title": "Asset-Backed Security (Abs) Instrument And Market Features",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 178,
+    "endPage": 186,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "69",
+    "title": "Mortgage-Backed Security (Mbs) Instrument And Market Features",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 187,
+    "endPage": 199,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "70",
+    "title": "Derivative Instrument And Derivative Market Features",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 200,
+    "endPage": 208,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "71",
+    "title": "Forward Commitment And Contingent Claim Features And Instruments",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 209,
+    "endPage": 221,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "72",
+    "title": "Derivative Benefits, Risks, And Issuer And Investor Uses",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 222,
+    "endPage": 228,
+    "pageCount": 7
+  },
+  {
+    "readingNumber": "73",
+    "title": "Arbitrage, Replication, And The Cost Of Carry In Pricing Derivatives",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 229,
+    "endPage": 236,
+    "pageCount": 8
+  },
+  {
+    "readingNumber": "74",
+    "title": "Pricing And Valuation Of Forward Contracts And For An Underlying With Varying",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 237,
+    "endPage": 242,
+    "pageCount": 6
+  },
+  {
+    "readingNumber": "75",
+    "title": "Pricing And Valuation Of Futures Contracts",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 243,
+    "endPage": 247,
+    "pageCount": 5
+  },
+  {
+    "readingNumber": "76",
+    "title": "Pricing And Valuation Of Interest Rates And Other Swaps",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 248,
+    "endPage": 251,
+    "pageCount": 4
+  },
+  {
+    "readingNumber": "77",
+    "title": "Pricing And Valuation Of Options",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 252,
+    "endPage": 261,
+    "pageCount": 10
+  },
+  {
+    "readingNumber": "78",
+    "title": "Option Replication Using Put- Call Parity",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 262,
+    "endPage": 268,
+    "pageCount": 7
+  },
+  {
+    "readingNumber": "79",
+    "title": "Valuing A Derivative Using A One-Period Binomial Model",
+    "book": 3,
+    "file": "/schweser/book-3.pdf",
+    "startPage": 269,
+    "endPage": 298,
+    "pageCount": 30
+  },
+  {
+    "readingNumber": "80",
+    "title": "Alternative Investment Features, Methods, And Structures",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 14,
+    "endPage": 22,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "81",
+    "title": "Alternative Investment Performance And Returns",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 23,
+    "endPage": 34,
+    "pageCount": 12
+  },
+  {
+    "readingNumber": "82",
+    "title": "Investments In Private Capital: Equity And Debt",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 35,
+    "endPage": 42,
+    "pageCount": 8
+  },
+  {
+    "readingNumber": "83",
+    "title": "Real Estate And Infrastructure",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 43,
+    "endPage": 51,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "84",
+    "title": "Natural Resources",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 52,
+    "endPage": 57,
+    "pageCount": 6
+  },
+  {
+    "readingNumber": "85",
+    "title": "Hedge Funds",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 58,
+    "endPage": 65,
+    "pageCount": 8
+  },
+  {
+    "readingNumber": "86",
+    "title": "Introduction To Digital Assets",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 66,
+    "endPage": 81,
+    "pageCount": 16
+  },
+  {
+    "readingNumber": "87",
+    "title": "Reading 87",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 82,
+    "endPage": 103,
+    "pageCount": 22
+  },
+  {
+    "readingNumber": "88",
+    "title": "Reading 88",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 104,
+    "endPage": 132,
+    "pageCount": 29
+  },
+  {
+    "readingNumber": "89",
+    "title": "Portfolio Management: An Overview",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 133,
+    "endPage": 146,
+    "pageCount": 14
+  },
+  {
+    "readingNumber": "90",
+    "title": "Basics Of Portfolio Planning And Construction",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 147,
+    "endPage": 160,
+    "pageCount": 14
+  },
+  {
+    "readingNumber": "91",
+    "title": "The Behavioral Biases Of Individuals",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 161,
+    "endPage": 178,
+    "pageCount": 18
+  },
+  {
+    "readingNumber": "92",
+    "title": "Introduction To Risk Management",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 179,
+    "endPage": 191,
+    "pageCount": 13
+  },
+  {
+    "readingNumber": "93",
+    "title": "Ethics And Trust In The Investment Profession",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 192,
+    "endPage": 200,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "94",
+    "title": "Code Of Ethics And Standards Of Professional Conduct",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 201,
+    "endPage": 206,
+    "pageCount": 6
+  },
+  {
+    "readingNumber": "95",
+    "title": "Guidance For Standard I: Professionalism",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 207,
+    "endPage": 215,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "96",
+    "title": "Guidance For Standard Ii: Integrity Of Capital Markets",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 216,
+    "endPage": 219,
+    "pageCount": 4
+  },
+  {
+    "readingNumber": "97",
+    "title": "Guidance For Standard Iii: Duties To Clients",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 220,
+    "endPage": 228,
+    "pageCount": 9
+  },
+  {
+    "readingNumber": "98",
+    "title": "Guidance For Standard Iv: Duties To Employers",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 229,
+    "endPage": 234,
+    "pageCount": 6
+  },
+  {
+    "readingNumber": "99",
+    "title": "Guidance For Standard V: Investment Analysis, Recommendations, And",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 235,
+    "endPage": 240,
+    "pageCount": 6
+  },
+  {
+    "readingNumber": "100",
+    "title": "Guidance For Standard Vi: Conflicts Of Interest",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 241,
+    "endPage": 245,
+    "pageCount": 5
+  },
+  {
+    "readingNumber": "101",
+    "title": "Guidance For Standard Vii: Responsibilities As A Cfa Institute Member Or Cfa",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 246,
+    "endPage": 249,
+    "pageCount": 4
+  },
+  {
+    "readingNumber": "102",
+    "title": "Application Of The Code And Standards: Level I",
+    "book": 4,
+    "file": "/schweser/book-4.pdf",
+    "startPage": 250,
+    "endPage": 278,
+    "pageCount": 29
+  }
+]
