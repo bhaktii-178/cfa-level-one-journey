@@ -1,0 +1,1 @@
+- [GitHub CLI authorization](github-cli-authorization.md) — a GitHub source-control connection may not authenticate Agent shell pushes; verify CLI access separately.
