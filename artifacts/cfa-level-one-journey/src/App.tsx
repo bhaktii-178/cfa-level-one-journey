@@ -32,6 +32,7 @@ import {
   Menu,
   NotebookPen,
   PanelLeftClose,
+  Pencil,
   Plus,
   Search,
   Settings2,
@@ -75,6 +76,7 @@ type Store = {
   sessions: Session[];
   updateProgress: (id: string, patch: Partial<Progress>) => void;
   addSession: (session: Session) => void;
+  updateSession: (session: Session) => void;
 };
 type ReadingContent = {
   readingNumber: string;
@@ -277,6 +279,13 @@ function App() {
       setSnapshot((current) => ({
         ...current,
         sessions: [session, ...current.sessions],
+      })),
+    updateSession: (session) =>
+      setSnapshot((current) => ({
+        ...current,
+        sessions: current.sessions.map((existing) =>
+          existing.id === session.id ? session : existing,
+        ),
       })),
   };
   const backup = () => {
@@ -1411,6 +1420,7 @@ function ReadingDetail({ store }: { store: Store }) {
 
 function Sessions({ store }: { store: Store }) {
   const [open, setOpen] = useState(false);
+  const [editingSession, setEditingSession] = useState<Session | null>(null);
   const [range, setRange] = useState<"week" | "month" | "all">("all");
   const now = new Date();
   const sessions = store.sessions.filter(
@@ -1428,7 +1438,10 @@ function Sessions({ store }: { store: Store }) {
         <button
           type="button"
           data-testid="button-open-session-form"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setEditingSession(null);
+            setOpen(true);
+          }}
           className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground transition-transform hover:-translate-y-px"
         >
           <Plus size={15} /> Log a session
@@ -1486,7 +1499,14 @@ function Sessions({ store }: { store: Store }) {
       {sessions.length ? (
         <div className="space-y-3">
           {sessions.map((session) => (
-            <SessionRow key={session.id} session={session} />
+            <SessionRow
+              key={session.id}
+              session={session}
+              onEdit={() => {
+                setOpen(false);
+                setEditingSession(session);
+              }}
+            />
           ))}
         </div>
       ) : (
@@ -1505,12 +1525,28 @@ function Sessions({ store }: { store: Store }) {
           }
         />
       )}
-      {open && <SessionForm store={store} close={() => setOpen(false)} />}
+      {(open || editingSession) && (
+        <SessionForm
+          key={editingSession?.id ?? "new"}
+          store={store}
+          session={editingSession ?? undefined}
+          close={() => {
+            setOpen(false);
+            setEditingSession(null);
+          }}
+        />
+      )}
     </div>
   );
 }
 
-function SessionRow({ session }: { session: Session }) {
+function SessionRow({
+  session,
+  onEdit,
+}: {
+  session: Session;
+  onEdit: () => void;
+}) {
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4 sm:flex-row sm:items-center">
       <div className="grid size-11 shrink-0 place-items-center rounded-lg bg-secondary font-serif text-lg text-primary">
@@ -1525,30 +1561,54 @@ function SessionRow({ session }: { session: Session }) {
           {subjectFor(session.subjectId).shortLabel}
         </div>
       </div>
-      <div className="flex items-center gap-4 pl-[3.5rem] sm:pl-0">
-        <div className="font-mono text-xs text-accent">
-          {formatDuration(session.durationMinutes)}
-        </div>
-        {session.notes && (
-          <div
-            title={session.notes}
-            className="max-w-[240px] truncate text-xs text-muted-foreground"
-          >
-            <FileText size={13} className="mr-1 inline" />
-            {session.notes}
+      <div className="flex items-center justify-between gap-3 pl-[3.5rem] sm:justify-start sm:pl-0">
+        <div className="flex min-w-0 items-center gap-4">
+          <div className="shrink-0 font-mono text-xs text-accent">
+            {formatDuration(session.durationMinutes)}
           </div>
-        )}
+          {session.notes && (
+            <div
+              title={session.notes}
+              className="max-w-[240px] truncate text-xs text-muted-foreground"
+            >
+              <FileText size={13} className="mr-1 inline" />
+              {session.notes}
+            </div>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={onEdit}
+          aria-label={`Edit session: ${topicFor(session.topicId)?.title || "Study session"}`}
+          data-testid={`button-edit-session-${session.id}`}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <Pencil size={13} />
+          Edit
+        </button>
       </div>
     </div>
   );
 }
 
-function SessionForm({ store, close }: { store: Store; close: () => void }) {
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
-  const [subjectId, setSubjectId] = useState(subjects[0].id);
-  const [topicId, setTopicId] = useState(readings[0].id);
-  const [duration, setDuration] = useState("45");
-  const [notes, setNotes] = useState("");
+function SessionForm({
+  store,
+  close,
+  session,
+}: {
+  store: Store;
+  close: () => void;
+  session?: Session;
+}) {
+  const [date, setDate] = useState(
+    session?.date ?? new Date().toISOString().slice(0, 10),
+  );
+  const [subjectId, setSubjectId] = useState(session?.subjectId ?? subjects[0].id);
+  const [topicId, setTopicId] = useState(session?.topicId ?? readings[0].id);
+  const [duration, setDuration] = useState(
+    String(session?.durationMinutes ?? 45),
+  );
+  const [notes, setNotes] = useState(session?.notes ?? "");
   const subjectTopics = readings.filter(
     (topic) => topic.subjectId === subjectId,
   );
@@ -1558,36 +1618,50 @@ function SessionForm({ store, close }: { store: Store; close: () => void }) {
   }, [subjectId]);
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    store.addSession({
-      id: `session-${Date.now()}`,
-      date,
-      subjectId,
-      topicId,
-      durationMinutes: Number(duration),
-      notes,
-    });
-    store.updateProgress(topicId, {
-      lastStudied: date,
-      status:
-        store.progress[topicId].status === "not_started"
-          ? "in_progress"
-          : store.progress[topicId].status,
-    });
+    if (session) {
+      store.updateSession({
+        ...session,
+        durationMinutes: Number(duration),
+        notes,
+      });
+    } else {
+      store.addSession({
+        id: `session-${Date.now()}`,
+        date,
+        subjectId,
+        topicId,
+        durationMinutes: Number(duration),
+        notes,
+      });
+      store.updateProgress(topicId, {
+        lastStudied: date,
+        status:
+          store.progress[topicId].status === "not_started"
+            ? "in_progress"
+            : store.progress[topicId].status,
+      });
+    }
     close();
   };
   return (
     <div className="fixed inset-0 z-50 grid place-items-center bg-primary/25 p-4 backdrop-blur-sm">
       <form
         onSubmit={submit}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="session-form-title"
         className="w-full max-w-lg rounded-2xl border border-border bg-card p-6 shadow-2xl"
       >
         <div className="mb-6 flex items-start justify-between">
           <div>
             <div className="mb-1 font-mono text-[10px] uppercase tracking-[.18em] text-accent">
-              Add to the log
+              {session ? "Update your log" : "Add to the log"}
             </div>
-            <h2 className="font-serif text-3xl tracking-[-.035em] text-primary">
-              Log a session
+            <h2
+              id="session-form-title"
+              className="font-serif text-3xl tracking-[-.035em] text-primary"
+            >
+              {session ? "Edit session" : "Log a session"}
             </h2>
           </div>
           <button
@@ -1600,22 +1674,35 @@ function SessionForm({ store, close }: { store: Store; close: () => void }) {
           </button>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
+          {session ? (
+            <div className="rounded-lg bg-secondary/50 p-3 text-xs text-muted-foreground sm:col-span-2">
+              <div className="font-semibold text-primary">
+                {topicFor(session.topicId)?.title || "Study session"}
+              </div>
+              <div className="mt-1">
+                {formatDate(session.date)} ·{" "}
+                {subjectFor(session.subjectId).shortLabel}
+              </div>
+            </div>
+          ) : (
+            <label className="text-xs font-semibold text-primary">
+              Date
+              <input
+                required
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                data-testid="input-session-date"
+                className="focus-ring mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none"
+              />
+            </label>
+          )}
           <label className="text-xs font-semibold text-primary">
-            Date
-            <input
-              required
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              data-testid="input-session-date"
-              className="focus-ring mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none"
-            />
-          </label>
-          <label className="text-xs font-semibold text-primary">
-            Minutes
+            Time studied (minutes)
             <input
               required
               min="1"
+              step="1"
               type="number"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
@@ -1623,36 +1710,40 @@ function SessionForm({ store, close }: { store: Store; close: () => void }) {
               className="focus-ring mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none"
             />
           </label>
-          <label className="text-xs font-semibold text-primary sm:col-span-2">
-            Subject
-            <select
-              value={subjectId}
-              onChange={(e) => setSubjectId(e.target.value)}
-              data-testid="select-session-subject"
-              className="focus-ring mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none"
-            >
-              {subjects.map((subject) => (
-                <option key={subject.id} value={subject.id}>
-                  {subject.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="text-xs font-semibold text-primary sm:col-span-2">
-            Reading
-            <select
-              value={topicId}
-              onChange={(e) => setTopicId(e.target.value)}
-              data-testid="select-session-topic"
-              className="focus-ring mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none"
-            >
-              {subjectTopics.map((topic) => (
-                <option key={topic.id} value={topic.id}>
-                  {topic.readingNumber}. {topic.title}
-                </option>
-              ))}
-            </select>
-          </label>
+          {!session && (
+            <>
+              <label className="text-xs font-semibold text-primary sm:col-span-2">
+                Subject
+                <select
+                  value={subjectId}
+                  onChange={(e) => setSubjectId(e.target.value)}
+                  data-testid="select-session-subject"
+                  className="focus-ring mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none"
+                >
+                  {subjects.map((subject) => (
+                    <option key={subject.id} value={subject.id}>
+                      {subject.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="text-xs font-semibold text-primary sm:col-span-2">
+                Reading
+                <select
+                  value={topicId}
+                  onChange={(e) => setTopicId(e.target.value)}
+                  data-testid="select-session-topic"
+                  className="focus-ring mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none"
+                >
+                  {subjectTopics.map((topic) => (
+                    <option key={topic.id} value={topic.id}>
+                      {topic.readingNumber}. {topic.title}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </>
+          )}
           <label className="text-xs font-semibold text-primary sm:col-span-2">
             Notes
             <span className="ml-1 font-normal text-muted-foreground">
@@ -1682,7 +1773,7 @@ function SessionForm({ store, close }: { store: Store; close: () => void }) {
             data-testid="button-save-session"
             className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground"
           >
-            Save session
+            {session ? "Save changes" : "Save session"}
           </button>
         </div>
       </form>
