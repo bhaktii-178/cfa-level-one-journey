@@ -49,28 +49,19 @@ import {
 } from "@/data/curriculum";
 import readingManifest from "@/data/readingManifest.json";
 import { ErrorBoundary } from "@/components/error-boundary";
+import { CloudSyncControl } from "@/components/cloud-sync-control";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { useCloudSync, type CloudSyncController } from "@/hooks/use-cloud-sync";
+import type {
+  Progress,
+  ProgressMap,
+  Session,
+  Snapshot,
+  Status,
+} from "@/lib/tracker-types";
 import NotFound from "@/pages/not-found";
 
-type Status = "not_started" | "in_progress" | "completed" | "needs_revision";
-type Progress = {
-  status: Status;
-  confidence: number;
-  notes: string;
-  lastStudied: string | null;
-  revisionCount: number;
-};
-type ProgressMap = Record<string, Progress>;
-type Session = {
-  id: string;
-  date: string;
-  subjectId: string;
-  topicId: string;
-  durationMinutes: number;
-  notes: string;
-};
-type Snapshot = { progress: ProgressMap; sessions: Session[] };
 type Store = {
   progress: ProgressMap;
   sessions: Session[];
@@ -262,6 +253,7 @@ function dayOfYear(date: Date) {
 function App() {
   const [snapshot, setSnapshot] = useState<Snapshot>(readSnapshot);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const cloudSync = useCloudSync(snapshot, setSnapshot);
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
   }, [snapshot]);
@@ -272,19 +264,28 @@ function App() {
         ...current,
         progress: {
           ...current.progress,
-          [id]: { ...current.progress[id], ...patch },
+          [id]: {
+            ...current.progress[id],
+            ...patch,
+            updatedAt: new Date().toISOString(),
+          },
         },
       })),
     addSession: (session) =>
       setSnapshot((current) => ({
         ...current,
-        sessions: [session, ...current.sessions],
+        sessions: [
+          { ...session, updatedAt: new Date().toISOString() },
+          ...current.sessions,
+        ],
       })),
     updateSession: (session) =>
       setSnapshot((current) => ({
         ...current,
         sessions: current.sessions.map((existing) =>
-          existing.id === session.id ? session : existing,
+          existing.id === session.id
+            ? { ...session, updatedAt: new Date().toISOString() }
+            : existing,
         ),
       })),
   };
@@ -328,6 +329,7 @@ function App() {
             setMobileOpen={setMobileOpen}
             backup={backup}
             importSnapshot={importSnapshot}
+            cloudSync={cloudSync}
           >
             <ErrorBoundary resetKey={window.location.pathname}>
               <Switch>
@@ -361,12 +363,14 @@ function Shell({
   setMobileOpen,
   backup,
   importSnapshot,
+  cloudSync,
 }: {
   children: ReactNode;
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;
   backup: () => void;
   importSnapshot: (event: ChangeEvent<HTMLInputElement>) => void;
+  cloudSync: CloudSyncController;
 }) {
   const [location] = useLocation();
   const [desktopCollapsed, setDesktopCollapsed] = useState(false);
@@ -455,12 +459,15 @@ function Shell({
           {!desktopCollapsed && (
             <div className="rounded-xl border border-border bg-secondary/50 p-3">
               <div className="mb-2 flex items-center gap-2 text-xs font-semibold">
-                <span className="size-2 rounded-full bg-accent" />
-                Stored locally
+                <span
+                  className={`size-2 rounded-full ${cloudSync.userEmail ? "bg-accent" : "bg-muted-foreground"}`}
+                />
+                {cloudSync.userEmail ? "Cloud sync on" : "Stored on this device"}
               </div>
               <p className="text-[11px] leading-relaxed text-muted-foreground">
-                Your notes stay in this browser. Back up when you need a second
-                copy.
+                {cloudSync.userEmail
+                  ? "Your tracker is saved here and synced to your account."
+                  : "Sign in to a sync account to share progress across devices."}
               </p>
             </div>
           )}
@@ -493,6 +500,7 @@ function Shell({
             Local workspace <span className="text-border">/</span> February 2027
           </div>
           <div className="ml-auto flex items-center gap-2">
+            <CloudSyncControl sync={cloudSync} />
             <input
               id="import-backup"
               type="file"
